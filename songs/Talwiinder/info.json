@@ -1,0 +1,17 @@
+{
+  "title": "Talwiinder",
+  "description": "All Talwiinder Songs",
+  "cover": "cover.jpg",
+  "songs": [
+    {
+      "file": "Khayaal Talwiinder 320 Kbps.mp3",
+      "name": "Khayaal",
+      "artist": "Talwiinder"
+    },
+    {
+      "file": "Dhundhala Yashraj 128 Kbps.mp3",
+      "name": "Dhundhala",
+      "artist": "Talwiinder"
+    }
+  ]
+}
