@@ -23,6 +23,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - name: Prepare site files
         run: rsync -a --exclude='/.git' --exclude='/node_modules' --exclude='/_site' ./ _site/
       - uses: actions/upload-pages-artifact@v3
