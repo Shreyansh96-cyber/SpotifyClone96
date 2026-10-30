@@ -14,6 +14,11 @@ let next = document.querySelector("#next");
 let range = document.querySelector(".range>input");
 let cardContainer = document.querySelector(".cardsContainer");
 let volume = document.querySelector(".volume>img");
+const siteRoot = new URL(".", window.location.href);
+
+function siteUrl(path) {
+    return new URL(path, siteRoot);
+}
 
 function secondsToMinutes(seconds) {
   // Convert input to number
@@ -34,18 +39,9 @@ function secondsToMinutes(seconds) {
 
 async function getSongs(folder) {
     currFolder = folder;
-    let a = await fetch(`/${folder}/`);
-    let response = await a.text();
-    let div = document.createElement("div");
-    div.innerHTML = response;
-    let as = div.getElementsByTagName("a");
-    songs = [];
-    for (let index = 0; index < as.length; index++) {
-        const element = as[index];
-        if(element.href.endsWith(".mp3")){
-        songs.push(element.href.split(`/${folder}/`)[1]);
-        }
-    }
+    const response = await fetch(siteUrl(`${folder}/songs.json`));
+    if (!response.ok) throw new Error(`Could not load songs for ${folder}`);
+    songs = await response.json();
     // Show all the songs in the playlist
     let songUl = document.querySelector(".songsList").getElementsByTagName("ul")[0]
     songUl.innerHTML = "";
@@ -73,7 +69,7 @@ async function getSongs(folder) {
 }
 
 const playMusic = (track, pause= false) =>{
-    currentSong.src = `/${currFolder}/` + track;
+    currentSong.src = siteUrl(`${currFolder}/${encodeURIComponent(track)}`).href;
     if(!pause){
         currentSong.play();
         play.src = "pause.svg"
@@ -179,27 +175,19 @@ async function main() {
 }
 
 async function displayAlbums() {
-    let a = await fetch(`/songs/`);
-    let response = await a.text();
-    let div = document.createElement("div");
-    div.innerHTML = response;
-    let anchors = div.getElementsByTagName("a");
-    let array = Array.from(anchors)
-        for (let index = 0; index < array.length; index++) {
-            const e = array[index];
-        if(e.href.includes("/songs/") && !e.href.includes(".htaccess")){
-            let folder = e.href.split("/").slice(-2)[1];
-            let a = await fetch(`/songs/${folder}/info.json`);
-            let response = await a.json();
+    const response = await fetch(siteUrl("songs/index.json"));
+    const folders = await response.json();
+    for (const folder of folders) {
+            const albumResponse = await fetch(siteUrl(`songs/${encodeURIComponent(folder)}/info.json`));
+            const album = await albumResponse.json();
             cardContainer.innerHTML = cardContainer.innerHTML + `<div data-folder="${folder}" class="cards">
               <div class="play">
                 <i class="fa-solid fa-play"></i>
                 </div>
-              <img src="/songs/${folder}/cover.jpg" alt="">
-              <h2>${response.title}</h2>
-              <p>${response.description}</p>
+              <img src="${siteUrl(`songs/${encodeURIComponent(folder)}/cover.jpg`)}" alt="">
+              <h2>${album.title}</h2>
+              <p>${album.description}</p>
             </div>`
-        }
     }
     // Event Listner for Loading Songs
 
