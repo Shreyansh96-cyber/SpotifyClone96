@@ -188,10 +188,12 @@ async function displayAlbums() {
             const albumResponse = await fetch(siteUrl(`songs/${encodeURIComponent(folder)}/info.json`));
             const album = await albumResponse.json();
             cardContainer.innerHTML = cardContainer.innerHTML + `<div data-folder="${folder}" class="cards">
-              <div class="play">
-                <i class="fa-solid fa-play"></i>
+              <div class="cardCover">
+                <img src="${siteUrl(`songs/${encodeURIComponent(folder)}/cover.jpg`)}" alt="">
+                <div class="play">
+                  <i class="fa-solid fa-play"></i>
                 </div>
-              <img src="${siteUrl(`songs/${encodeURIComponent(folder)}/cover.jpg`)}" alt="">
+              </div>
               <h2>${album.title}</h2>
               <p>${album.description}</p>
             </div>`
