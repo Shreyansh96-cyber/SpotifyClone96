@@ -180,7 +180,8 @@ body{
    display: flex;
    justify-content: center;
    align-items: center;
-   gap: 16px;
+   gap: 10px;
+   flex-shrink: 0;
 }
 .timevol{
    display: flex;
@@ -188,15 +189,41 @@ body{
    align-items: center;
    gap: 13px;
    cursor: pointer;
-}
-.range input{
-   cursor: pointer;
+   flex-shrink: 0;
 }
 .volume{
+   position: relative;
    display: flex;
    align-items: center;
    justify-content: center;
    gap: 12px;
+}
+.volume-toggle{
+   display: flex;
+   align-items: center;
+   padding: 0;
+   border: 0;
+   background: transparent;
+   cursor: pointer;
+}
+.range{
+   display: none;
+   position: absolute;
+   bottom: calc(100% + 8px);
+   left: 50%;
+   z-index: 2;
+   align-items: center;
+   justify-content: center;
+   padding: 8px;
+   border-radius: 8px;
+   background-color: #282828;
+   transform: translateX(-50%);
+}
+.volume-open .range{
+   display: flex;
+}
+.range input{
+   cursor: pointer;
 }
 .songsList{
    height: 470px;
@@ -260,13 +287,18 @@ body{
 .songabove{
    display: flex;
    justify-content: space-between;
+   align-items: center;
+   gap: 12px;
    padding: 0 12px;
    padding-top: 6px;
    margin: 12px 0;
 }
 .songinfo{
-   width: 318px;
-   height: 20px;
+   min-width: 0;
+   flex: 1 1 0;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   white-space: nowrap;
    cursor: pointer;
 }
 .hamburgerContainer{
@@ -309,6 +341,7 @@ body{
    }
    .seekbar{
       width: calc(100vw - 70px);
+      margin-top: 10px;
    }
    .hamburger{
       display: block;
@@ -327,17 +360,45 @@ body{
       margin: 0 2px;
    }
    .songabove{
-      flex-direction: column;
-      gap: 15px;
-      align-items: center;
+      flex-direction: row;
+      gap: 8px;
+      padding: 0;
+      margin: 0;
    }
    .cards:hover{
       --b:260px
    }
 }
 @media (max-width: 680px){
+   .songinfo{
+      font-size: 13px;
+   }
+   .playbtns{
+      gap: 6px;
+   }
+   .playbtns img{
+      width: 24px;
+      height: 24px;
+   }
+   .timevol{
+      gap: 6px;
+   }
+   .songtime{
+      font-size: 12px;
+      white-space: nowrap;
+   }
+   .volume{
+      gap: 4px;
+   }
+   .volume-toggle img{
+      width: 18px;
+   }
+   .range input{
+      writing-mode: vertical-lr;
+      direction: rtl;
+   }
    .cards{
-      width: 90vw;
+      width: 39vw;
    }
    .cardsContainer{
       max-height: unset;

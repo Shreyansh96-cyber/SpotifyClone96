@@ -13,7 +13,9 @@ let previous = document.querySelector("#previous");
 let next = document.querySelector("#next");
 let range = document.querySelector(".range>input");
 let cardContainer = document.querySelector(".cardsContainer");
-let volume = document.querySelector(".volume>img");
+let volumeControls = document.querySelector(".volume");
+let volumeToggle = document.querySelector(".volume-toggle");
+let volumeIcon = document.querySelector(".volume-toggle img");
 const siteRoot = new URL(".", window.location.href);
 
 function siteUrl(path) {
@@ -142,8 +144,28 @@ async function main() {
 
     // Adding an Event Listner for Volume
 
-    range.addEventListener("click", (e) => {
-        currentSong.volume = parseInt(e.target.value)/ 100;
+    range.addEventListener("input", () => {
+        currentSong.volume = Number(range.value) / 100;
+        volumeIcon.src = range.value === "0" ? "mute.svg" : "volume.svg";
+    })
+
+    volumeToggle.addEventListener("click", () => {
+        const isOpen = volumeControls.classList.toggle("volume-open");
+        volumeToggle.setAttribute("aria-expanded", String(isOpen));
+    })
+
+    document.addEventListener("click", e => {
+        if (!volumeControls.contains(e.target)) {
+            volumeControls.classList.remove("volume-open");
+            volumeToggle.setAttribute("aria-expanded", "false");
+        }
+    })
+
+    document.addEventListener("keydown", e => {
+        if (e.key === "Escape") {
+            volumeControls.classList.remove("volume-open");
+            volumeToggle.setAttribute("aria-expanded", "false");
+        }
     })
 
     // Event Listner for Loading Songs
@@ -152,21 +174,6 @@ async function main() {
         e.addEventListener("click", async item=> {
            songs = await getSongs(`songs/${item.currentTarget.dataset.folder}`);
         })
-    })
-
-    // Adding an Event Listener for Mute Button
-
-    volume.addEventListener("click", e =>{
-        if(e.target.src.includes("volume.svg")){
-            e.target.src = e.target.src.replace("volume.svg", "mute.svg");
-            currentSong.volume = 0;
-            range.value = 0;
-        }
-        else{
-            e.target.src = e.target.src.replace("mute.svg", "volume.svg");
-            currentSong.volume = 0.10;
-            range.value = 10;
-        }
     })
 
     // Display all the Albums on the Page
