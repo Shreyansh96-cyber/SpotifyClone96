@@ -412,8 +412,18 @@ body{
 }
 @media (max-width: 680px){
    .header .buttons{
-      padding-top: 30px;
+      padding-top: 17px;
       padding-bottom: 14px;
+   }
+   .hamburger{
+      height: 30px;
+   }
+   .buttons > * {
+      margin: 0 2px;
+      font-size: 14px;
+    }
+   .header > * {
+      padding: 12px;
    }
    .songinfo{
       font-size: 13px;
