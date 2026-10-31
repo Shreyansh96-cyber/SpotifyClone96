@@ -183,7 +183,7 @@ body{
    display: flex;
    justify-content: center;
    align-items: center;
-   gap: 10px;
+   gap: 16px;
    flex-shrink: 0;
 }
 .timevol{
@@ -227,6 +227,15 @@ body{
 }
 .range input{
    cursor: pointer;
+}
+@media (min-width: 681px){
+   .range{
+      display: flex;
+      position: static;
+      padding: 0;
+      background: transparent;
+      transform: none;
+   }
 }
 .songsList{
    height: 470px;
@@ -288,8 +297,8 @@ body{
    display: none;
 }
 .songabove{
-   display: flex;
-   justify-content: space-between;
+   display: grid;
+   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
    align-items: center;
    gap: 12px;
    padding: 0 12px;
@@ -298,11 +307,17 @@ body{
 }
 .songinfo{
    min-width: 0;
-   flex: 1 1 0;
    overflow: hidden;
    text-overflow: ellipsis;
    white-space: nowrap;
    cursor: pointer;
+}
+.playbtns{
+   grid-column: 2;
+}
+.timevol{
+   grid-column: 3;
+   justify-self: end;
 }
 .hamburgerContainer{
    display: flex;
@@ -363,7 +378,6 @@ body{
       margin: 0 2px;
    }
    .songabove{
-      flex-direction: row;
       gap: 8px;
       padding: 0;
       margin: 0;
@@ -378,14 +392,14 @@ body{
       font-size: 13px;
    }
    .playbtns{
-      gap: 6px;
+      gap: 10px;
    }
    .playbtns img{
       width: 24px;
       height: 24px;
    }
    .timevol{
-      gap: 6px;
+      gap: 15px;
    }
    .songtime{
       font-size: 12px;
